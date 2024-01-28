@@ -1,0 +1,44 @@
+.palette-display {
+    max-width: 85%;
+    height: auto;
+    display: flex;
+    margin: 16px auto 24px auto;
+}
+
+.palette-display img,
+.palette-display svg {
+    margin: auto;
+}
+
+.form-title {
+    /* text-align: center; */
+    margin: auto;
+    width: 50%;
+
+    letter-spacing: 1px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: 16px 0;
+    grid-gap: 22px;
+}
+
+.form-title:before,
+.form-title:after {
+    content: " ";
+    display: block;
+    border-bottom: 2px solid #ccc;
+    /* background-color:#f8f8f8; */
+    padding-top: 22px;
+}
+
+.form-group {
+    margin: 0 auto;
+}
+
+.form-group label {
+    margin-bottom: 6px;
+}
+
+.container {
+    margin-bottom: 5vh;
+}

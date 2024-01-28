@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+{# Use dark mode as default, because a bright flash is worse #}
+<html lang="en" data-bs-theme="dark">
+
+  <head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A visualization of all color palettes available in palettable.">
+    <meta name="author" content="Marcelo Amaral">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='css/sidebar.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='css/forms.css') }}" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/forms.js') }}"></script>
+    {% endblock head %}
+    <title>{% block title %}PaletteVis{% endblock %}</title>
+  </head>
+
+  <body>
+    {% block sidebar %}
+    <div class="p-3 col-2 sidebar">
+      <a href="/" class="d-flex align-items-center pb-3 mb-3 text-decoration-none border-bottom">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Palettes" width="64" height="64" class="me-2">
+        <span class="fs-5 fw-semibold">PaletteVis</span>
+      </a>
+
+      <div class="form-check form-switch ms-2 mb-2">
+        <input class="form-check-input" type="checkbox" id="light-switch"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16" onload="setupDarkMode()">
+          <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278"/>
+        </svg>
+      </div>
+
+      <ul class="list-unstyled ps-0">
+      {% for category, items in data.items() %}
+        {% if items.first_value() is mapping %}
+          <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#{{ category }}-collapse" aria-expanded="false">
+              {{ category }}
+            </button>
+            <div class="collapse" id="{{ category }}-collapse">
+              <ul class="btn-toggle-nav pb-1 list-unstyled ps-0">
+              {% for subcategory in items.keys() %}
+                <li><a href="/{{ category }}/{{ subcategory }}" class="rounded">{{ subcategory.title() }}</a></li>
+              {% endfor %}
+              </ul>
+            </div>
+          </li>
+        {% else %}
+          <li><a class="btn-main rounded mb-1" href="/{{ category }}">{{ category }}</a></li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+    </div>
+    {% endblock sidebar %}
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    {% block exception %}{% endblock %}
+  </body>
+</html>

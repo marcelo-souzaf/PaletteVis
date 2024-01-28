@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="px-4 py-4 text-center">
+    <h1 class="display-5 fw-bold">PaletteVis</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">Quickly visualize all the palettes available in the palettable Python module.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3 class="form-title mb-4">Default Settings</h3>
+    <form id="defaults-form">
+      <div class="row">
+        <div class="d-flex col-md-6 text-center">
+          <div class="form-group">
+            <label>Number of Colors</label>
+            <br>
+            <input type="range" class="form-control-range" name="num_colors" min="2" max="20" value="{{ num_colors }}" oninput="this.form.num_colors_text.value = this.value">
+            <input type="number" class="form-control" name="num_colors_text" min="2" max="20" value="{{ num_colors }}" oninput="this.form.num_colors.value = this.value">
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="mb-2">Display Mode</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="display_mode" value="0" {{ discrete }}>
+              <label class="form-check-label">Discrete</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="display_mode" value="1" {{ continuous }}>
+              <label class="form-check-label">Continuous</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group client-side-form">
+            <label>Order</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="order" value="0" {{ normal }}>
+              <label class="form-check-label" for="normal">Normal</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="order" value="1" {{ reversed_ }}>
+              <label class="form-check-label" for="reversed">Reversed</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <label>Palette Image Aspect (x, y)</label>
+      </div>
+      <div class="form-group d-flex justify-content-center" style="width: 20%;">
+        <input type="number" class="form-control" name="x_scale" min="0.5" max="16" value="{{ image_aspect[0] }}" step="any">
+        <input type="number" class="form-control" name="y_scale" min="0.5" max="16" value="{{ image_aspect[1] }}" step="any">
+      </div>
+
+      <div class="row mt-3">
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock content %}
