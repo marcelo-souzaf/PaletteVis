@@ -22,6 +22,17 @@ parameters = {
     "image_format": Palettes.image_format
 }
 
+errors = {
+    404: (
+        "Page not found.",
+        "The page you are looking for does not exist."
+    ),
+    500: (
+        "Internal server error.",
+        "The server encountered an internal error and was unable to complete your request."
+    )
+}
+
 
 # Used for debug
 def log(*args) -> None:
@@ -106,9 +117,26 @@ def set_default() -> str:
     return "Success"
 
 
+@app.route("/test-500")
+def test_500() -> None:
+    raise RuntimeError("Oops!")
+
+
+def error_handler(code: int) -> tuple[str, int]:
+    info = errors[code]
+    return render_template(
+        "error.html", error_code=code, description=info[0], details=info[1]
+    ), code
+
+
 @app.errorhandler(404)
 def page_not_found(error: Exception) -> tuple[str, int]:
-    return render_template("404.html"), 404
+    return error_handler(404)
+
+
+@app.errorhandler(500)
+def internal_error(error: Exception) -> tuple[str, int]:
+    return error_handler(500)
 
 
 if __name__ == "__main__":

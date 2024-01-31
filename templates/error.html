@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Page not found{% endblock %}
+{% block title %}Error{% endblock %}
 
 {% block sidebar %}{% endblock %}
 
@@ -8,11 +8,11 @@
   <!-- https://frontendshape.com/post/bootstrap-5-404-page-examples -->
   <div class="d-flex align-items-center justify-content-center" style="height: 80vh">
     <div class="text-center">
-      <h1 class="display-1 fw-bold">404</h1>
+      <h1 class="display-1 fw-bold">{{ error_code }}</h1>
       <p class="fs-3">
-        <span class="text-danger">Oops!</span> Page not found.</p>
+        <span class="text-danger">Oops!</span> {{ description }}</p>
       <p class="lead">
-        The page you're looking for doesn't exist.
+        {{ details }}
       </p>
       <a href="/" class="btn btn-primary">Go Home</a>
     </div>
